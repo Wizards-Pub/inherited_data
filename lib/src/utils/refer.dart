@@ -58,6 +58,16 @@ extension KnownReferences on ReferFunction {
     return TypeReference((b) {
       b.symbol = 'Widget';
       b.isNullable = nullable;
+      b.url = _RefUrl.flutterWidgets.string;
+    });
+  }
+
+  /// Refers to `InheritedWidget`
+  TypeReference inheritedWidget({bool nullable = false}) {
+    return TypeReference((b) {
+      b.symbol = 'InheritedWidget';
+      b.isNullable = nullable;
+      b.url = _RefUrl.flutterWidgets.string;
     });
   }
 
@@ -91,7 +101,8 @@ extension KnownReferences on ReferFunction {
 }
 
 enum _RefUrl {
-  flutterFoundation('package:flutter/foundation.dart');
+  flutterFoundation('package:flutter/foundation.dart'),
+  flutterWidgets('package:flutter/widgets.dart');
 
   final String string;
   const _RefUrl(this.string);

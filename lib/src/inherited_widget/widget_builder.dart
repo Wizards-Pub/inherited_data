@@ -31,14 +31,15 @@ class IWidgetBuilder {
   Class build() {
     return Class((b) {
       b.name = widgetRef().symbol;
+      b.extend = refer.inheritedWidget();
       b.constructors = ListBuilder([
         buildDefaultConstructor(),
       ]);
       b.methods = ListBuilder([
         // ?: buildThemeConstructors
         buildMerge(),
-        buildUpdateShouldNotify(),
         buildOfContext(),
+        buildUpdateShouldNotify(),
         buildDebugFillProperties(),
       ]);
     });
@@ -47,7 +48,19 @@ class IWidgetBuilder {
   Constructor buildDefaultConstructor() {
     return Constructor((b) {
       // TODO: add parameters
-      b.requiredParameters = ListBuilder([]);
+      b.optionalParameters = ListBuilder([
+        Parameter((p) {
+          p.toSuper = true;
+          p.named = true;
+          p.name = 'key';
+        }),
+        Parameter((p) {
+          p.toSuper = true;
+          p.required = true;
+          p.named = true;
+          p.name = 'child';
+        }),
+      ]);
     });
   }
 
@@ -86,6 +99,7 @@ class IWidgetBuilder {
   Method buildUpdateShouldNotify() {
     return Method((b) {
       b.name = 'updateShouldNotify';
+      b.annotations = ListBuilder([refer.overrideAnnotation]);
       b.requiredParameters = ListBuilder([
         Parameter((p) {
           p.name = 'oldWidget';
@@ -104,6 +118,7 @@ class IWidgetBuilder {
   Method buildDebugFillProperties() {
     return Method((b) {
       b.name = 'debugFillProperties';
+      b.annotations = ListBuilder([refer.overrideAnnotation]);
       b.requiredParameters = ListBuilder([
         Parameter((p) {
           p.name = 'properties';

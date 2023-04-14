@@ -31,9 +31,9 @@ class IDataMixinBuilder {
     return Mixin((b) {
       b.name = mixinRef().symbol;
       b.methods = ListBuilder([
-        buildDebugDescribeChildren(),
-        buildCopyWith(),
         buildLerp(),
+        buildCopyWith(),
+        buildDebugDescribeChildren(),
         buildHashCode(),
         buildEqualityOperator(),
       ]);
@@ -42,7 +42,6 @@ class IDataMixinBuilder {
 
   Method buildDebugDescribeChildren() {
     return Method((b) {
-      b.annotations = ListBuilder([refer.overrideAnnotation]);
       b.name = 'debugDescribeChildren';
       b.returns = refer.listOf(refer.diagnosticsNode());
       b.lambda = false;
@@ -67,7 +66,9 @@ class IDataMixinBuilder {
   Method buildLerp() {
     return Method((b) {
       b.name = 'lerp';
-      b.returns = mixinRef();
+      b.returns = TypeReference((b) {
+        b.symbol = element.className;
+      });
       b.static = true;
       b.lambda = false;
       b.docs = ListBuilder([
@@ -122,6 +123,7 @@ class IDataMixinBuilder {
   Method buildHashCode() {
     return Method((b) {
       b.name = 'hashCode';
+      b.annotations = ListBuilder([refer.overrideAnnotation]);
       b.type = MethodType.getter;
       b.returns = refer.integer();
       b.lambda = false;
@@ -134,6 +136,7 @@ class IDataMixinBuilder {
     return Method((b) {
       final pRef = refer('other');
       b.name = 'operator ==';
+      b.annotations = ListBuilder([refer.overrideAnnotation]);
       b.returns = refer.boolean();
       b.lambda = false;
       b.types = ListBuilder([]);
