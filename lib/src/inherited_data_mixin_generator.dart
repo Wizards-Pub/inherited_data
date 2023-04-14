@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -11,6 +13,12 @@ import 'package:inherited_data/src/inherited_widget/widget_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
 class InheritedDataMixinGenerator extends GeneratorForAnnotation<InheritedData> {
+  @override
+  FutureOr<String> generate(LibraryReader library, BuildStep buildStep) {
+    print('ITS HAPPENING!!!');
+    return super.generate(library, buildStep);
+  }
+
   @override
   String generateForAnnotatedElement(
     Element element,
@@ -30,11 +38,21 @@ class InheritedDataMixinGenerator extends GeneratorForAnnotation<InheritedData> 
     );
     final generatedWidget = widgetBuilder.build();
 
-    final emitter = DartEmitter();
-    return DartFormatter().format('''
+    final emitter = DartEmitter(useNullSafetySyntax: true);
+
+    final generatedString = '''
 ${generatedWidget.accept(emitter)}
 
 ${generatedMixin.accept(emitter)}
-''');
+''';
+
+    try {
+      return DartFormatter().format(generatedString);
+    } catch (e) {
+      // TODO: log error
+      print(e);
+    }
+
+    return generatedString;
   }
 }

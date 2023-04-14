@@ -71,23 +71,22 @@ class IDataMixinBuilder {
       b.static = true;
       b.lambda = false;
       b.docs = ListBuilder([
-        '```dart',
-        'static ${element.className} lerp(${element.className}? a, ${element.className}? b, double t) {',
-        '\t${mixinRef().symbol}.lerp(a, b, t);',
-        '}',
-        '```',
+        '/// ```dart',
+        '/// static ${element.className} lerp(${element.className}? a, ${element.className}? b, double t) {',
+        '/// \t${mixinRef().symbol}.lerp(a, b, t);',
+        '/// }',
+        '/// ```',
       ]);
 
       final nullableClassRef = TypeReference((b) {
         b.symbol = element.className;
         b.isNullable = true;
       });
-      b.optionalParameters = ListBuilder([
+      b.requiredParameters = ListBuilder([
         /// `ClassName? a` parameter
         Parameter((p) {
           p.name = 'a';
           p.type = nullableClassRef;
-          p.required = true;
           p.named = false;
         }),
 
@@ -95,7 +94,6 @@ class IDataMixinBuilder {
         Parameter((p) {
           p.name = 'b';
           p.type = nullableClassRef;
-          p.required = true;
           p.named = false;
         }),
 
@@ -103,7 +101,6 @@ class IDataMixinBuilder {
         Parameter((p) {
           p.name = 't';
           p.type = refer.double();
-          p.required = true;
           p.named = false;
         }),
       ]);
@@ -136,15 +133,14 @@ class IDataMixinBuilder {
   Method buildEqualityOperator() {
     return Method((b) {
       final pRef = refer('other');
-
-      b.name = '==';
+      b.name = 'operator ==';
       b.returns = refer.boolean();
       b.lambda = false;
+      b.types = ListBuilder([]);
       b.requiredParameters = ListBuilder([
         Parameter((p) {
           p.name = pRef.symbol!;
           p.type = refer.object();
-          p.required = true;
           p.named = false;
         }),
       ]);

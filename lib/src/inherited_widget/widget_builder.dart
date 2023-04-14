@@ -23,7 +23,7 @@ class IWidgetBuilder {
   TypeReference widgetRef({bool nullable = false}) {
     return TypeReference((b) {
       // ! FIXME: name should be obtained from context / specified explicitly
-      b.symbol = element.className.asPrivateMixinName();
+      b.symbol = element.className.asInheritedWidgetName();
       b.isNullable = nullable;
     });
   }
@@ -36,7 +36,6 @@ class IWidgetBuilder {
       ]);
       b.methods = ListBuilder([
         // ?: buildThemeConstructors
-        buildDefaultConstructor(),
         buildMerge(),
         buildUpdateShouldNotify(),
         buildOfContext(),

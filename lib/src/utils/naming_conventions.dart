@@ -5,7 +5,14 @@ extension NamingConventions on String {
     if (isPrivate) {
       return '_\$${substring(1)._toTypeName()}';
     }
-    return '_\$$_toTypeName()';
+    return '_\$${_toTypeName()}';
+  }
+
+  String asInheritedWidgetName() {
+    if (isPrivate) {
+      return '_Default${substring(1)._toTypeName()}';
+    }
+    return 'Default${_toTypeName()}';
   }
 
   String _toTypeName() {
@@ -71,7 +78,7 @@ class DartProhibitedCharacters implements Pattern {
   @pragma("vm:always-consider-inlining")
   static bool _isLetter(int codeUnit) {
     // A - z
-    return _isLowercaseLetter(codeUnit) && _isUppercaseLetter(codeUnit);
+    return _isLowercaseLetter(codeUnit) || _isUppercaseLetter(codeUnit);
   }
 
   @pragma("vm:always-consider-inlining")
