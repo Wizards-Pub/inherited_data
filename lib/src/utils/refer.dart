@@ -1,102 +1,94 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart' show Reference, TypeReference;
+import 'package:meta/meta.dart';
 
-typedef ReferFunction = Reference Function(String symbol, [String? url]);
+class ReferFunction {
+  const ReferFunction();
+
+  @internal
+  Reference call(
+    String symbol, {
+    String? url,
+  }) {
+    return Reference(symbol, url);
+  }
+
+  @internal
+  TypeReference type(
+    String symbol, {
+    String? url,
+    Reference? bound,
+    Iterable<Reference> types = const [],
+    bool isNullable = false,
+  }) {
+    return TypeReference((b) {
+      b.symbol = symbol;
+      b.url = url;
+      b.bound = bound;
+      b.types = ListBuilder(types);
+      b.isNullable = isNullable;
+    });
+  }
+}
 
 extension KnownReferences on ReferFunction {
   /// Returns reference to `List<{ref}>`
-  TypeReference listOf(TypeReference ref, {bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'List';
-      b.types = ListBuilder([ref]);
-      b.isNullable = nullable;
-    });
+  TypeReference listOf(TypeReference ref, {bool isNullable = false}) {
+    return type('List', types: [ref], isNullable: isNullable);
   }
 
   /// Refers to `void`
-  TypeReference voidRef({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'void';
-      b.isNullable = nullable;
-    });
+  TypeReference voidRef() {
+    return type('void');
   }
 
   /// Refers to `int`
-  TypeReference integer({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'int';
-      b.isNullable = nullable;
-    });
+  TypeReference integer({bool isNullable = false}) {
+    return type('int', isNullable: isNullable);
   }
 
   /// Refers to `double`
-  TypeReference double({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'double';
-      b.isNullable = nullable;
-    });
+  TypeReference double({bool isNullable = false}) {
+    return type('double', isNullable: isNullable);
   }
 
   /// Refers to `bool`
-  TypeReference boolean({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'bool';
-      b.isNullable = nullable;
-    });
+  TypeReference boolean({bool isNullable = false}) {
+    return type('bool', isNullable: isNullable);
   }
 
   /// Refers to `Object`
-  TypeReference object({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'Object';
-      b.isNullable = nullable;
-    });
+  TypeReference object({bool isNullable = false}) {
+    return type('Object', isNullable: isNullable);
   }
 
   /// Refers to `Widget`
-  TypeReference widget({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'Widget';
-      b.isNullable = nullable;
-      b.url = _RefUrl.flutterWidgets.string;
-    });
+  TypeReference widget({bool isNullable = false}) {
+    return type('Widget', url: _RefUrl.flutterWidgets.string, isNullable: isNullable);
   }
 
   /// Refers to `InheritedWidget`
-  TypeReference inheritedWidget({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'InheritedWidget';
-      b.isNullable = nullable;
-      b.url = _RefUrl.flutterWidgets.string;
-    });
+  TypeReference inheritedWidget({bool isNullable = false}) {
+    return type('InheritedWidget', url: _RefUrl.flutterWidgets.string, isNullable: isNullable);
   }
 
   /// Refers to `BuildContext`
-  TypeReference buildContext({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'BuildContext';
-      b.isNullable = nullable;
-    });
+  TypeReference buildContext({bool isNullable = false}) {
+    return type('BuildContext', url: _RefUrl.flutterWidgets.string, isNullable: isNullable);
   }
 
   /// Refers to `DiagnosticPropertiesBuilder`
-  TypeReference diagnosticPropertiesBuilder({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'DiagnosticPropertiesBuilder';
-      b.isNullable = nullable;
-    });
+  TypeReference diagnosticPropertiesBuilder({bool isNullable = false}) {
+    return type('DiagnosticPropertiesBuilder',
+        url: _RefUrl.flutterWidgets.string, isNullable: isNullable);
   }
 
   /// Refers to `@override` annotation
   Reference get overrideAnnotation => this('override');
 
   /// Refers to `DiagnosticNode` class from package:flutter/foundation.dart
-  TypeReference diagnosticsNode({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = 'DiagnosticsNode';
-      b.url = _RefUrl.flutterFoundation.string;
-      b.isNullable = nullable;
-    });
+  TypeReference diagnosticsNode({bool isNullable = false}) {
+    return type('DiagnosticsNode', url: _RefUrl.flutterFoundation.string, isNullable: isNullable);
   }
 }
 

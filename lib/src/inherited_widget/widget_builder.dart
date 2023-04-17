@@ -1,6 +1,5 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart' hide refer;
-import 'package:code_builder/code_builder.dart' as cb show refer;
 import 'package:inherited_data/inherited_data.dart';
 import 'package:inherited_data/src/utils/naming_conventions.dart';
 import 'package:inherited_data/src/utils/refer.dart';
@@ -16,16 +15,16 @@ class IWidgetBuilder {
   IWidgetBuilder({
     required this.annotation,
     required this.element,
-    this.refer = cb.refer,
+    this.refer = const ReferFunction(),
   });
 
   /// Reference to produced mixin
-  TypeReference widgetRef({bool nullable = false}) {
-    return TypeReference((b) {
-      // ! FIXME: name should be obtained from context / specified explicitly
-      b.symbol = element.className.asInheritedWidgetName();
-      b.isNullable = nullable;
-    });
+  TypeReference widgetRef({bool isNullable = false}) {
+    // ! FIXME: name should be obtained from context / specified explicitly
+    return refer.type(
+      element.className.asInheritedWidgetName(),
+      isNullable: isNullable,
+    );
   }
 
   Class build() {
@@ -134,9 +133,8 @@ class IWidgetBuilder {
     });
   }
 
+  // TODO: remove
   Code _throwUnimplementedError() {
-    return TypeReference((b) {
-      b.symbol = 'UnimplementedError';
-    }).call([]).thrown.statement;
+    return refer.type('UnimplementedError').call([]).thrown.statement;
   }
 }

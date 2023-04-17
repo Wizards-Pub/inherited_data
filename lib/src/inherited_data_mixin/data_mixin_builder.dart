@@ -1,6 +1,5 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart' hide refer;
-import 'package:code_builder/code_builder.dart' as cb show refer;
 import 'package:inherited_data/inherited_data.dart';
 import 'package:inherited_data/src/utils/naming_conventions.dart';
 import 'package:inherited_data/src/utils/refer.dart';
@@ -16,15 +15,12 @@ class IDataMixinBuilder {
   IDataMixinBuilder({
     required this.annotation,
     required this.element,
-    this.refer = cb.refer,
+    this.refer = const ReferFunction(),
   });
 
   /// Reference to produced mixin
-  TypeReference mixinRef({bool nullable = false}) {
-    return TypeReference((b) {
-      b.symbol = element.className.asPrivateMixinName();
-      b.isNullable = nullable;
-    });
+  TypeReference mixinRef({bool isNullable = false}) {
+    return refer.type(element.className.asPrivateMixinName(), isNullable: isNullable);
   }
 
   Mixin build() {
@@ -66,9 +62,7 @@ class IDataMixinBuilder {
   Method buildLerp() {
     return Method((b) {
       b.name = 'lerp';
-      b.returns = TypeReference((b) {
-        b.symbol = element.className;
-      });
+      b.returns = refer.type(element.className);
       b.static = true;
       b.lambda = false;
       b.docs = ListBuilder([
@@ -79,10 +73,7 @@ class IDataMixinBuilder {
         '/// ```',
       ]);
 
-      final nullableClassRef = TypeReference((b) {
-        b.symbol = element.className;
-        b.isNullable = true;
-      });
+      final nullableClassRef = refer.type(element.className, isNullable: true);
       b.requiredParameters = ListBuilder([
         /// `ClassName? a` parameter
         Parameter((p) {
@@ -153,8 +144,6 @@ class IDataMixinBuilder {
   }
 
   Code _throwUnimplementedError() {
-    return TypeReference((b) {
-      b.symbol = 'UnimplementedError';
-    }).call([]).thrown.statement;
+    return refer.type('UnimplementedError').call([]).thrown.statement;
   }
 }
