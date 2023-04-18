@@ -1,4 +1,4 @@
-import 'package:inherited_data/src/utils/naming_conventions.dart';
+import 'package:inherited_builder/src/utils/naming_conventions.dart';
 import 'package:test/test.dart';
 
 void main() {

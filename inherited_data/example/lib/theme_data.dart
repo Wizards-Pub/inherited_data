@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inherited_data/inherited_data.dart';
+import 'package:inherited_builder/inherited_data.dart';
 
 part 'theme_data.inherited.dart';
 

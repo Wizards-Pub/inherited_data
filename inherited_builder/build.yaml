@@ -10,7 +10,7 @@ targets:
 
 builders:
   inherited_data:
-    import: "package:inherited_data/src/builder.dart"
+    import: "package:inherited_builder/src/builder.dart"
     builder_factories: ["inheritedBuilder"]
     build_extensions: {".dart": [".inherited.dart"]}
     auto_apply: dependents

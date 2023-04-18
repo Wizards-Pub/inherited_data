@@ -1,8 +1,8 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart' hide refer;
+import 'package:inherited_builder/src/utils/naming_conventions.dart';
+import 'package:inherited_builder/src/utils/refer.dart';
 import 'package:inherited_data/inherited_data.dart';
-import 'package:inherited_data/src/utils/naming_conventions.dart';
-import 'package:inherited_data/src/utils/refer.dart';
 
 import 'data_annotated_class.dart';
 

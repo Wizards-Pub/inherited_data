@@ -1,7 +1,8 @@
-name: inherited_data
+name: inherited_builder
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
 # repository: https://github.com/Wizards-Pub/inherited_data
+publish_to: none
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -15,6 +16,8 @@ dependencies:
   code_builder: ^4.4.0
   dart_style: ^2.3.0
   recase: ^4.1.0
+  inherited_data:
+    path: '../inherited_data'
 
 dev_dependencies:
   lints: ^2.0.0

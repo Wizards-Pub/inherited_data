@@ -1,0 +1,8 @@
+name: inherited_data
+description: A starting point for Dart libraries or applications.
+version: 0.0.1
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: '>=2.19.3 <3.0.0'
+
