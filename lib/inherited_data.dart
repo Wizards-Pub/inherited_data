@@ -3,124 +3,52 @@ library inherited_data;
 const inheritedData = InheritedData();
 
 class InheritedData {
-  final String? themeName;
+  /// A name of a generated `InheritedWidget`.
+  ///
+  /// Default value will generate an InheritedWidget with prefix + name of
+  /// an annotated class + postfix. For example:
+  ///
+  /// ```dart
+  /// @inherited
+  /// class FooThemeData {}
+  ///
+  /// // Generates
+  /// class DefaultFooThemeData extends InheritedWidget {}
+  /// ```
+  /// Prefix and postfix can be specified globally in build.yaml config.
+  final String? widgetName;
+
+  /// A name of a parent theme data where this data will be attached to.
+  ///
+  /// {@template global_theme_example}
+  /// Example:
+  ///
+  /// ```dart
+  /// @InheritedData(attachTo: 'ParentThemeData', fieldName: 'aChild')
+  /// class AChildData {}
+  ///
+  /// @InheritedData(attachTo: 'ParentThemeData', fieldName: 'bChild')
+  /// class BChildData {}
+  ///
+  /// // Generates
+  /// class ParentThemeData {
+  ///   final AChildData aChild;
+  ///   final BChildData bChild;
+  ///
+  ///   // ...
+  /// }
+  /// ```
+  /// {@endtemplate}
+  final String? attachTo;
+
+  /// A field name of a global theme.
+  ///
+  /// {@macro global_theme_example}
   final String? fieldName;
-  final bool debugFillProperties;
-  final bool updateShouldNotify;
-  final bool lerp;
 
   const InheritedData({
-    this.themeName = defaultThemeName,
-    this.fieldName = defaultFieldName,
-    this.debugFillProperties = true,
-    this.updateShouldNotify = true,
-    this.lerp = true,
+    this.widgetName,
+    this.attachTo,
+    this.fieldName,
   });
-
-  static const defaultFieldName = '';
-  static const defaultThemeName = '';
-
-  static defaultDebugFillProperties() => throw UnimplementedError();
-  static defaultLerp() => throw UnimplementedError();
-  static defaultToStringShort() => throw UnimplementedError();
-  static defaultHashCode() => throw UnimplementedError();
-  static defaultEquality() => throw UnimplementedError();
-  static defaultCopyWith() => throw UnimplementedError();
 }
-
-// class InheritedData {
-//   final String? themeName;
-//   final String? fieldName;
-//   final InheritedDebugFillProperties debugFillProperties;
-//   final InheritedUpdateShouldNotify updateShouldNotify;
-
-//   const InheritedData({
-//     this.themeName,
-//     this.fieldName,
-//     this.debugFillProperties = const InheritedDebugFillProperties(),
-//     this.updateShouldNotify = const InheritedUpdateShouldNotify(),
-//   });
-// }
-
-// class InheritedUpdateShouldNotify<T extends InheritedWidget> {
-//   final bool Function(T oldWidget, T widget)? functionOverride;
-//   final List<Symbol> excludedFields;
-
-//   const InheritedUpdateShouldNotify({
-//     this.functionOverride,
-//     this.excludedFields = const [],
-//   });
-// }
-
-// class InheritedDebugFillProperties<T extends InheritedWidget> {
-//   final void Function(DiagnosticPropertiesBuilder properties, T widget)? functionOverride;
-//   final List<Symbol> excludedFields;
-
-//   const InheritedDebugFillProperties({
-//     this.functionOverride,
-//     this.excludedFields = const [],
-//   });
-// }
-
-// class InheritedMerge<T extends InheritedWidget> {
-//   final Widget Function(T widget, T parent)? functionOverride;
-//   final List<Symbol> excludedFields;
-
-//   const InheritedMerge({
-//     this.functionOverride,
-//     this.excludedFields = const [],
-//   });
-// }
-
-// abstract class GenParam<T> {
-//   const factory GenParam(T value) = _GenParamValue;
-//   const factory GenParam.byDefault() = _GenParamDefault;
-//   const factory GenParam.disabled() = _GenParamDisabled;
-
-//   U unwrap<U>({
-//     required U Function() byDefault,
-//     required U Function(T v) value,
-//     required U Function() disabled,
-//   });
-// }
-
-// class _GenParamValue<T> implements GenParam<T> {
-//   final T value;
-
-//   const _GenParamValue(this.value);
-
-//   @override
-//   U unwrap<U>({
-//     required U Function() byDefault,
-//     required U Function(T v) value,
-//     required U Function() disabled,
-//   }) {
-//     return value(this.value);
-//   }
-// }
-
-// class _GenParamDefault<T> implements GenParam<T> {
-//   const _GenParamDefault();
-
-//   @override
-//   U unwrap<U>({
-//     required U Function() byDefault,
-//     required U Function(T v) value,
-//     required U Function() disabled,
-//   }) {
-//     return byDefault();
-//   }
-// }
-
-// class _GenParamDisabled<T> implements GenParam<T> {
-//   const _GenParamDisabled();
-
-//   @override
-//   U unwrap<U>({
-//     required U Function() byDefault,
-//     required U Function(T v) value,
-//     required U Function() disabled,
-//   }) {
-//     return disabled();
-//   }
-// }
