@@ -3,7 +3,7 @@
 part of 'theme_data.dart';
 
 // **************************************************************************
-// InheritedDataMixinGenerator
+// InheritedWidgetGenerator
 // **************************************************************************
 
 class DefaultThemeData extends InheritedWidget {
@@ -30,6 +30,10 @@ class DefaultThemeData extends InheritedWidget {
     throw UnimplementedError();
   }
 }
+
+// **************************************************************************
+// InheritedDataMixinGenerator
+// **************************************************************************
 
 mixin _$ThemeData {
   /// ```dart
